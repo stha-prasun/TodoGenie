@@ -1,4 +1,7 @@
 import { User } from "../models/userSchema.js";
+import { Todo } from "../models/todoSchema.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const signup = async (req, res) => {
   try {
@@ -48,7 +51,7 @@ export const login = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).populate("todo");
 
     if (!user) {
       return res.status(400).json({
@@ -78,6 +81,7 @@ export const login = async (req, res) => {
       _id: user._id,
       fullname: user.fullname,
       email: user.email,
+      todo: user.todo,
     };
 
     return res
