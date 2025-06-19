@@ -1,6 +1,5 @@
 import express from "express";
 import dotenv from "dotenv";
-import http from "http";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import connectDB from "./config/database.js";
@@ -25,6 +24,6 @@ app.use(cors(corsOption));
 //routes
 
 app.listen(port, () => {
-    connectDB();
-    console.log(`Example app listening on port ${port}`);
-  });
+  connectDB();
+  console.log(`Example app listening on port ${port}`);
+});
