@@ -156,7 +156,7 @@ export const getTodoById = async (req, res) => {
       });
     }
 
-    const todo = Todo.findById(id);
+    const todo = await Todo.findById(id);
 
     if (!todo) {
       return res.status(400).json({
@@ -168,6 +168,36 @@ export const getTodoById = async (req, res) => {
     return res.status(200).json({
       success: true,
       todo,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getAllTodos = async (req, res) => {
+  try {
+    const { id } = req.body; //user id
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "User ID is required",
+      });
+    }
+
+    const todos = await Todo.find({ user: id });
+
+    if (todos.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No todos found",
+        todos: [],
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      todos,
     });
   } catch (error) {
     console.log(error);
