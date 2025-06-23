@@ -80,3 +80,32 @@ export const markAsDone = async (req, res) => {
     console.log(error);
   }
 };
+
+export const deleteTodo = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "Id is required",
+      });
+    }
+
+    const todo = await Todo.findByIdAndDelete(id);
+
+    if (!todo) {
+      return res.status(400).json({
+        success: false,
+        message: "Todo does not exits",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Todo Deleted",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
