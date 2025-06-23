@@ -144,3 +144,32 @@ export const updateTodo = async (req, res) => {
     console.error(error);
   }
 };
+
+export const getTodoById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "Id required",
+      });
+    }
+
+    const todo = Todo.findById(id);
+
+    if (!todo) {
+      return res.status(400).json({
+        success: false,
+        message: "Todo not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      todo,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

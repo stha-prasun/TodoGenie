@@ -1,5 +1,5 @@
 import express from "express";
-import { addTodo, deleteTodo, markAsDone, updateTodo } from "../controllers/todoController.js";
+import { addTodo, deleteTodo, getTodoById, markAsDone, updateTodo } from "../controllers/todoController.js";
 
 const router = express.Router();
 
@@ -10,5 +10,7 @@ router.route("/mark").post(markAsDone);
 router.route("/delete").post(deleteTodo);
 
 router.route("/update").post(updateTodo);
+
+router.route("/get/:id").get(getTodoById);
 
 export default router;
