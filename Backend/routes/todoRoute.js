@@ -7,7 +7,7 @@ router.route("/new").post(addTodo);
 
 router.route("/mark").post(markAsDone);
 
-router.route("/delete").post(deleteTodo);
+router.route("/delete").delete(deleteTodo);
 
 router.route("/update").post(updateTodo);
 
