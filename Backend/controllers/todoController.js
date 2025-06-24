@@ -189,7 +189,44 @@ export const getAllTodos = async (req, res) => {
 
     if (todos.length === 0) {
       return res.status(200).json({
-        success: true,
+        success: false,
+        message: "No todos found",
+        todos: [],
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      todos,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const search = async (req, res) => {
+  try {
+    const { id } = req.body; //id => user id
+    const { keyword } = req.params;
+
+    if (!id || !keyword) {
+      return res.status(400).json({
+        success: false,
+        message: "User ID and keyword are required",
+      });
+    }
+
+    const todos = await Todo.find({
+      user: id,
+      $or: [
+        { title: { $regex: keyword, $options: "i" } }, // i => case sensitive
+        { description: { $regex: keyword, $options: "i" } },
+      ],
+    });
+
+    if(todos.length === 0){
+      return res.status(200).json({
+        success: false,
         message: "No todos found",
         todos: [],
       });
