@@ -1,16 +1,14 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { USER_API_ENDPOINT } from "../../utils/constants";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { setLoggedInUser } from "../../redux/userSlice";
 
-const Login = () => {
-  const dispatch = useDispatch();
+const Signup = () => {
   const navigate = useNavigate();
-
+  
   const [input, setinput] = useState({
+    fullname: "",
     email: "",
     password: "",
   });
@@ -19,12 +17,13 @@ const Login = () => {
     setinput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `${USER_API_ENDPOINT}/login`,
+        `${USER_API_ENDPOINT}/signup`,
         {
+          fullname: input.fullname,
           email: input.email,
           password: input.password,
         },
@@ -38,12 +37,12 @@ const Login = () => {
 
       if (res.data.success) {
         setinput({
+          fullname: "",
           email: "",
           password: "",
         });
         toast.success(res.data.message);
-        dispatch(setLoggedInUser(res.data.loggedInUser));
-        navigate("/");
+        navigate("/login");
       }
     } catch (error) {
       console.log(error);
@@ -55,14 +54,26 @@ const Login = () => {
       <div className="bg-base-100 shadow-2xl rounded-2xl w-full max-w-md p-8 space-y-6">
         {/* App Branding */}
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-primary">TodoGenie</h1>
+          <h1 className="text-4xl font-bold text-primary">Create Account</h1>
           <p className="text-sm mt-1 text-gray-500">
-            Smart Todo Management with AI ✨
+            Join TodoGenie and organize smarter 🧠
           </p>
         </div>
 
-        {/* Login Form */}
-        <form onSubmit={handleLogin} className="space-y-4">
+        {/* Signup Form */}
+        <form onSubmit={handleSignup} className="space-y-4">
+          <div>
+            <label className="label font-medium">Fullname</label>
+            <input
+              type="text"
+              placeholder="John Doe"
+              className="input input-bordered w-full"
+              value={input.fullname}
+              name="fullname"
+              onChange={handleChange}
+            />
+          </div>
+
           <div>
             <label className="label font-medium">Email</label>
             <input
@@ -70,8 +81,8 @@ const Login = () => {
               placeholder="you@example.com"
               className="input input-bordered w-full"
               value={input.email}
-              onChange={handleChange}
               name="email"
+              onChange={handleChange}
             />
           </div>
 
@@ -82,21 +93,13 @@ const Login = () => {
               placeholder="••••••••"
               className="input input-bordered w-full"
               value={input.password}
-              onChange={handleChange}
               name="password"
+              onChange={handleChange}
             />
-            <label className="label justify-end">
-              <Link
-                to="/forgot"
-                className="text-sm text-primary font-medium hover:underline"
-              >
-                Forgot password?
-              </Link>
-            </label>
           </div>
 
           <button type="submit" className="btn btn-primary w-full text-base">
-            Sign In
+            Sign Up
           </button>
         </form>
 
@@ -113,14 +116,14 @@ const Login = () => {
           Continue with Google
         </button>
 
-        {/* Register Redirect */}
+        {/* Login Redirect */}
         <p className="text-sm text-center">
-          New here?{" "}
+          Already have an account?{" "}
           <Link
-            to="/register"
+            to="/login"
             className="text-primary font-semibold hover:underline"
           >
-            Create an account
+            Sign In
           </Link>
         </p>
       </div>
@@ -128,4 +131,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
