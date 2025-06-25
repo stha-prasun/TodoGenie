@@ -1,11 +1,19 @@
-import React from 'react'
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Login from "./components/auth/login";
 
 const App = () => {
+  const appRouter = createBrowserRouter([
+    {
+      path: "/login",
+      element: <Login />,
+    },
+  ]);
   return (
-    <div className='bg-blue-400'>
-      Hi
+    <div>
+      <RouterProvider router={appRouter} />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
