@@ -11,7 +11,7 @@ router.route("/delete").delete(deleteTodo);
 
 router.route("/update").post(updateTodo);
 
-router.route("/get/all").get(getAllTodos);
+router.route("/get/all").post(getAllTodos);
 
 router.route("/get/:id").get(getTodoById);
 
