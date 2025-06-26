@@ -3,13 +3,13 @@ import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="navbar bg-base-100 shadow-md px-4">
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+          <button tabIndex={0} className="btn btn-ghost btn-circle">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -18,19 +18,19 @@ const Navbar = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h7"
+                d="M4 6h16M4 12h16M4 18h16"
               />
             </svg>
-          </div>
+          </button>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
               <NavLink
                 to="/"
                 className={({ isActive }) =>
-                  isActive ? "text-primary font-medium" : ""
+                  isActive ? "text-primary font-semibold" : "text-base-content"
                 }
               >
                 Home
@@ -40,7 +40,7 @@ const Navbar = () => {
               <NavLink
                 to="/about"
                 className={({ isActive }) =>
-                  isActive ? "text-primary font-medium" : ""
+                  isActive ? "text-primary font-semibold" : "text-base-content"
                 }
               >
                 About
@@ -51,12 +51,13 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-center">
-        <NavLink to="/" className="text-2xl font-bold">
+        <NavLink to="/" className="text-3xl font-bold text-primary">
           TodoGenie
         </NavLink>
       </div>
 
-      <div className="navbar-end">
+      <div className="navbar-end gap-2">
+        <button className="btn btn-outline btn-primary btn-sm">New Todo</button>
         <button className="btn btn-ghost btn-circle">
           <svg
             xmlns="http://www.w3.org/2000/svg"

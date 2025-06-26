@@ -1,16 +1,13 @@
 import React from "react";
 import Navbar from "./shared/Navbar";
-
-const todos = [
-  {
-    id: 1,
-    title: "Buy groceries",
-    description: "Get milk, bread, and eggs from the store.",
-    createdAt: "2025-06-20",
-  }
-];
+import useGetAllTodos from "../hooks/useGetAllTodos";
+import { useSelector } from "react-redux";
 
 const Home = () => {
+  useGetAllTodos();
+
+  const todos = useSelector((store) => store?.Todos?.todos);
+
   return (
     <>
       <Navbar />
@@ -26,16 +23,16 @@ const Home = () => {
         </header>
 
         <section className="max-w-7xl mx-auto grid gap-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-          {todos.map(({ id, title, description, image, createdAt }) => (
+          {todos.map((item) => (
             <article
-              key={id}
+              key={item?._id}
               className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col overflow-hidden"
               style={{ minHeight: "360px" }}
             >
               <figure className="overflow-hidden rounded-t-xl">
                 <img
                   src="/image.jpg"
-                  alt={title}
+                  alt={item?.title}
                   className="w-full h-full object-fill"
                 />
               </figure>
@@ -43,16 +40,16 @@ const Home = () => {
               <div className="p-6 flex-grow flex flex-col justify-between">
                 <div>
                   <h2 className="text-2xl font-semibold text-gray-900">
-                    {title}
+                    {item?.title}
                   </h2>
                   <p className="mt-3 text-gray-700 leading-relaxed">
-                    {description}
+                    {item?.description}
                   </p>
                 </div>
 
                 <footer className="mt-6 flex items-center justify-between text-sm text-gray-500">
-                  <time dateTime={createdAt}>
-                    Created: {new Date(createdAt).toLocaleDateString()}
+                  <time dateTime={item?.createdAt}>
+                    Created: {new Date(item?.createdAt).toLocaleDateString()}
                   </time>
                   <button
                     type="button"
