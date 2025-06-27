@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { TODO_API_ENDPOINT } from '../utils/constants';
-import { setTodos } from '../redux/todosSlice';
+import { TODO_API_ENDPOINT } from "../utils/constants";
+import { setTodos } from "../redux/todosSlice";
 
 const useGetAllTodos = () => {
   const dispatch = useDispatch();
@@ -11,9 +11,13 @@ const useGetAllTodos = () => {
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const response = await axios.post(`${TODO_API_ENDPOINT}/get/all`, {
-          id: user?._id,
-        });
+        const response = await axios.post(
+          `${TODO_API_ENDPOINT}/get/all`,
+          {
+            id: user?._id,
+          },
+          { withCredentials: true }
+        );
 
         if (response.data?.success) {
           dispatch(setTodos(response?.data?.todos));
