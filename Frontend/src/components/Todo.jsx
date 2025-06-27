@@ -1,30 +1,24 @@
 import React from "react";
 import Navbar from "./shared/Navbar";
+import { useParams } from "react-router-dom";
+import useGetTodo from "../hooks/useGetTodo";
+import { useSelector } from "react-redux";
 
 const Todo = () => {
-  // Mock data (manually injected)
-  const todo = {
-    title: "test",
-    description: "test",
-    isCompleted: false,
-    priority: "medium",
-    aiSuggestion: "test",
-    user: {
-      $oid: "6853a6f0259a6da87a16a182",
-    },
-    createdAt: "2025-06-26T13:16:54.750Z",
-    updatedAt: "2025-06-26T13:16:54.750Z",
-  };
+  const { id } = useParams();
+
+  useGetTodo(id);
+
+  const todo = useSelector((store) => store.Todo.todo);
 
   return (
     <>
       <Navbar />
       <main className="min-h-screen bg-gradient-to-br from-gray-50 to-white px-6 py-16 sm:px-12 lg:px-24">
         <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-3xl p-10 border border-gray-100 space-y-8">
-
           {/* Title */}
           <h1 className="text-4xl font-extrabold text-gray-900">
-            {todo.title}
+            {todo?.title}
           </h1>
 
           {/* Featured Image */}
@@ -39,13 +33,13 @@ const Todo = () => {
           {/* Meta Info */}
           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
             <span className="badge badge-outline badge-primary capitalize">
-              Priority: {todo.priority}
+              Priority: {todo?.priority}
             </span>
             <span>
-              Created: {new Date(todo.createdAt).toLocaleDateString()}
+              Created: {new Date(todo?.createdAt).toLocaleDateString()}
             </span>
             <span>
-              Updated: {new Date(todo.updatedAt).toLocaleDateString()}
+              Updated: {new Date(todo?.updatedAt).toLocaleDateString()}
             </span>
           </div>
 
@@ -54,7 +48,7 @@ const Todo = () => {
             <h2 className="text-xl font-semibold mb-2 text-gray-800">
               Description
             </h2>
-            <p className="text-gray-700 text-lg">{todo.description}</p>
+            <p className="text-gray-700 text-lg">{todo?.description}</p>
           </div>
 
           {/* Action Controls */}
@@ -80,7 +74,7 @@ const Todo = () => {
                 <input
                   type="checkbox"
                   className="toggle toggle-success"
-                  defaultChecked={todo.isCompleted}
+                  defaultChecked={todo?.isCompleted}
                 />
               </label>
             </div>
@@ -89,19 +83,17 @@ const Todo = () => {
           {/* AI Suggestion */}
           <div>
             <div className="flex gap-2">
-            <button className="btn btn-accent mt-4">
-              🤖 Get AI Suggestion
-            </button>
-            <button className="btn btn-outline mt-4">
-              Edit
-            </button>
+              <button className="btn btn-accent mt-4">
+                🤖 Get AI Suggestion
+              </button>
+              <button className="btn btn-outline mt-4">Edit</button>
             </div>
-            {todo.aiSuggestion && (
+            {todo?.aiSuggestion && (
               <div className="mt-4 p-4 bg-gray-100 rounded-xl border">
                 <h3 className="font-semibold mb-2 text-gray-800">
                   AI Suggestion:
                 </h3>
-                <p className="text-gray-700">{todo.aiSuggestion}</p>
+                <p className="text-gray-700">{todo?.aiSuggestion}</p>
               </div>
             )}
           </div>
