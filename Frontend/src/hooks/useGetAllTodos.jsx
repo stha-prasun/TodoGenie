@@ -16,7 +16,7 @@ const useGetAllTodos = () => {
         });
 
         if (response.data?.success) {
-          dispatch(setTodos(response.data.todos));
+          dispatch(setTodos(response?.data?.todos));
         }
       } catch (error) {
         console.error("Failed to fetch todos:", error);

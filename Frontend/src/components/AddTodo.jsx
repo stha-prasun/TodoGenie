@@ -1,13 +1,31 @@
 import React, { useState } from "react";
 import Navbar from "./shared/Navbar";
+import { TODO_API_ENDPOINT } from "../utils/constants";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const AddTodo = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const handleSubmit = (e) => {
+  const user = useSelector((store)=>store?.User?.loggedInUser);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ title, description });
+    try {
+        const response = await axios.post(`${TODO_API_ENDPOINT}/new`, {
+          title,
+          description,
+          id: user?._id
+        });
+
+        if (response.data?.success) {
+          toast.success(response.data.message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
   };
 
   return (
