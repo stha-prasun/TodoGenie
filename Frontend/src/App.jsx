@@ -4,6 +4,7 @@ import Login from "./components/auth/login";
 import Signup from "./components/auth/Signup";
 import Home from "./components/Home";
 import AddTodo from "./components/AddTodo";
+import Todo from "./components/Todo";
 
 const App = () => {
   const appRouter = createBrowserRouter([
@@ -22,6 +23,10 @@ const App = () => {
     {
       path: "/add",
       element: <AddTodo />,
+    },
+    {
+      path: "/todo/:id",
+      element: <Todo />,
     },
   ]);
   return (

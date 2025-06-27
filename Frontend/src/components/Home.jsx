@@ -2,8 +2,11 @@ import React from "react";
 import Navbar from "./shared/Navbar";
 import useGetAllTodos from "../hooks/useGetAllTodos";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+
   useGetAllTodos();
 
   const todos = useSelector((store) => store?.Todos?.todos);
@@ -60,8 +63,9 @@ const Home = () => {
                   <button
                     type="button"
                     className="btn btn-sm btn-outline btn-primary hover:text-white hover:bg-primary transition"
+                    onClick={()=>navigate(`/todo/${item?._id}`)}
                   >
-                    View Todo
+                    View Details
                   </button>
                 </div>
               </div>
