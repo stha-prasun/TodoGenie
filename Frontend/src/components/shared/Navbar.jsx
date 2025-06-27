@@ -1,7 +1,9 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="navbar bg-base-100 shadow-md px-4">
       <div className="navbar-start">
@@ -57,7 +59,12 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-end gap-2">
-        <button className="btn btn-outline btn-primary btn-sm">New Todo</button>
+        <button
+          onClick={() => navigate("/add")}
+          className="btn btn-outline btn-primary btn-sm"
+        >
+          New Todo
+        </button>
         <button className="btn btn-ghost btn-circle">
           <svg
             xmlns="http://www.w3.org/2000/svg"

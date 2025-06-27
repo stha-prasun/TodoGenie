@@ -26,38 +26,44 @@ const Home = () => {
           {todos.map((item) => (
             <article
               key={item?._id}
-              className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col overflow-hidden"
-              style={{ minHeight: "360px" }}
+              className="bg-white rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.01] transition-all duration-300 border border-gray-100 flex flex-col overflow-hidden"
             >
-              <figure className="overflow-hidden rounded-t-xl">
+              <figure className="h-48 w-full overflow-hidden rounded-t-2xl">
                 <img
                   src="/image.jpg"
                   alt={item?.title}
-                  className="w-full h-full object-fill"
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               </figure>
 
-              <div className="p-6 flex-grow flex flex-col justify-between">
+              <div className="p-5 flex flex-col justify-between flex-grow space-y-4">
+                {/* Badge moved above title for hierarchy */}
+                <div className="flex justify-between items-center">
+                  <span className="badge badge-primary badge-outline text-sm px-3 py-1">
+                    {item?.priority}
+                  </span>
+                </div>
+
                 <div>
-                  <h2 className="text-2xl font-semibold text-gray-900">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-1">
                     {item?.title}
                   </h2>
-                  <p className="mt-3 text-gray-700 leading-relaxed">
+                  <p className="text-gray-600 leading-relaxed line-clamp-4">
                     {item?.description}
                   </p>
                 </div>
 
-                <footer className="mt-6 flex items-center justify-between text-sm text-gray-500">
+                <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t border-gray-200 mt-auto">
                   <time dateTime={item?.createdAt}>
                     Created: {new Date(item?.createdAt).toLocaleDateString()}
                   </time>
                   <button
                     type="button"
-                    className="btn btn-outline btn-primary px-5 py-2 rounded-md hover:bg-primary hover:text-white transition-colors duration-300"
+                    className="btn btn-sm btn-outline btn-primary hover:text-white hover:bg-primary transition"
                   >
                     View Todo
                   </button>
-                </footer>
+                </div>
               </div>
             </article>
           ))}
