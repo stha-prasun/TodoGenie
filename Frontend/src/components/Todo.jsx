@@ -48,6 +48,14 @@ const Todo = () => {
     }
   };
 
+  const handleDelete = async ()=>{
+    try {
+      console.log("Delete");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -124,6 +132,7 @@ const Todo = () => {
                 🤖 Get AI Suggestion
               </button>
               <button className="btn btn-outline mt-4">Edit</button>
+              <button onClick={handleDelete} className="btn btn-outline btn-error mt-4">Delete</button>
             </div>
             {todo?.aiSuggestion && (
               <div className="mt-4 p-4 bg-gray-100 rounded-xl border">
