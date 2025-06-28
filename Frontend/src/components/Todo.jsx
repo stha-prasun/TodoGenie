@@ -3,6 +3,8 @@ import Navbar from "./shared/Navbar";
 import { useParams } from "react-router-dom";
 import useGetTodo from "../hooks/useGetTodo";
 import { useSelector } from "react-redux";
+import axios from "axios";
+
 
 const Todo = () => {
   const { id } = useParams();
@@ -10,6 +12,29 @@ const Todo = () => {
   useGetTodo(id);
 
   const todo = useSelector((store) => store.Todo.todo);
+
+  const handleAI = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_AI_API_ENDPOINT}`,
+        {
+          contents: [
+            {
+              parts: [
+                {
+                  text: `You are an intelligent productivity assistant. Based on the task description provided, generate 3–5 smart, helpful suggestions that can help the user break down, improve, or approach the task more effectively. The suggestions should be Simple and clear, Actionable, Relevant to the task, Written in plain, helpful language. Task Description: ${todo?.description} Give your suggestions in a numbered list.`,
+                },
+              ],
+            },
+          ],
+        }
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -83,7 +108,7 @@ const Todo = () => {
           {/* AI Suggestion */}
           <div>
             <div className="flex gap-2">
-              <button className="btn btn-accent mt-4">
+              <button onClick={handleAI} className="btn btn-accent mt-4">
                 🤖 Get AI Suggestion
               </button>
               <button className="btn btn-outline mt-4">Edit</button>
