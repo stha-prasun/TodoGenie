@@ -4,19 +4,19 @@ import { useParams } from "react-router-dom";
 import useGetTodo from "../hooks/useGetTodo";
 import { useSelector } from "react-redux";
 import axios from "axios";
-
+import { AI_API_ENDPOINT } from "../utils/constants";
+import toast from "react-hot-toast";
 
 const Todo = () => {
   const { id } = useParams();
-
-  useGetTodo(id);
+  const fetchTodo = useGetTodo(id);
 
   const todo = useSelector((store) => store.Todo.todo);
 
   const handleAI = async () => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_AI_API_ENDPOINT}`,
+        import.meta.env.VITE_AI_API_ENDPOINT,
         {
           contents: [
             {
@@ -30,9 +30,21 @@ const Todo = () => {
         }
       );
 
-      console.log(response);
+      const suggestion = response?.data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      const res = await axios.put(
+        `${AI_API_ENDPOINT}/suggestion`,
+        { id, suggestion },
+        { withCredentials: true }
+      );
+
+      if (res?.data?.success) {
+        toast.success(res?.data.message);
+        await fetchTodo();
+      }
     } catch (error) {
-      console.log(error);
+      console.error("AI Suggestion Error:", error);
+      toast.error("Failed to get AI suggestion.");
     }
   };
 
@@ -118,7 +130,9 @@ const Todo = () => {
                 <h3 className="font-semibold mb-2 text-gray-800">
                   AI Suggestion:
                 </h3>
-                <p className="text-gray-700">{todo?.aiSuggestion}</p>
+                <p className="text-gray-700 whitespace-pre-line">
+                  {todo?.aiSuggestion}
+                </p>
               </div>
             )}
           </div>
