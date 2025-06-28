@@ -65,6 +65,24 @@ const Todo = () => {
     }
   };
 
+  const handleToggle = async () => {
+    try {
+      const res = await axios.post(
+        `${TODO_API_ENDPOINT}/mark`,
+        { id },
+        { withCredentials: true }
+      );
+
+      if (res?.data?.success) {
+        toast.success(res.data.message);
+        await fetchTodo();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -128,7 +146,8 @@ const Todo = () => {
                 <input
                   type="checkbox"
                   className="toggle toggle-success"
-                  defaultChecked={todo?.isCompleted}
+                  checked={todo?.isCompleted}
+                  onChange={handleToggle}
                 />
               </label>
             </div>
