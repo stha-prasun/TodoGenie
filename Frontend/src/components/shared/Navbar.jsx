@@ -65,7 +65,10 @@ const Navbar = () => {
         >
           New Todo
         </button>
-        <button className="btn btn-ghost btn-circle">
+        <button
+          onClick={() => navigate("/search")}
+          className="btn btn-ghost btn-circle"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
