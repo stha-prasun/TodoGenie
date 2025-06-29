@@ -1,8 +1,45 @@
 import React, { useState } from "react";
+import axios from "axios";
 import Navbar from "./shared/Navbar";
+import { TODO_API_ENDPOINT } from "../utils/constants";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Search = () => {
   const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+
+  const navigate = useNavigate();
+
+  const user = useSelector((store) => store.User.loggedInUser);
+
+  const searchTodos = async (text) => {
+    try {
+      const res = await axios.post(
+        `${TODO_API_ENDPOINT}/search/${text}`,
+        {
+          id: user._id,
+        },
+        { withCredentials: true }
+      );
+
+      setResults(res.data.todos || []);
+    } catch (error) {
+      console.error("Search failed:", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+
+    if (value.trim() === "") {
+      setResults([]);
+      return;
+    }
+
+    searchTodos(value);
+  };
 
   return (
     <>
@@ -18,21 +55,37 @@ const Search = () => {
             type="text"
             placeholder="Search todos..."
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={handleChange}
             className="input input-bordered w-full text-base"
           />
 
-          {/* Search Result List */}
+          {/* Search Results */}
           <div className="space-y-4">
-            {/* Replace with actual mapped todos */}
-            <div className="p-4 rounded-xl shadow bg-white border">
-              <h2 className="text-xl font-semibold text-gray-800">Todo Title</h2>
-              <p className="text-gray-600">Todo description goes here.</p>
-              <div className="mt-2 text-sm text-gray-500 flex gap-4">
-                <span className="capitalize">Priority: Medium</span>
-                <span>Status: ✅ Completed</span>
-              </div>
-            </div>
+            {query && results.length === 0 ? (
+              <p className="text-center text-gray-400">No todos found.</p>
+            ) : (
+              results.map((todo) => (
+                <div
+                  key={todo._id}
+                  className="p-4 rounded-xl shadow bg-white border cursor-pointer"
+                  onClick={()=>navigate(`/todo/${todo?._id}`)}
+                >
+                  <h2 className="text-xl font-semibold text-gray-800">
+                    {todo.title}
+                  </h2>
+                  <p className="text-gray-600">{todo.description}</p>
+                  <div className="mt-2 text-sm text-gray-500 flex gap-4">
+                    <span className="capitalize">
+                      Priority: {todo.priority}
+                    </span>
+                    <span>
+                      Status:{" "}
+                      {todo.isCompleted ? "✅ Completed" : "❌ Incomplete"}
+                    </span>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </main>
