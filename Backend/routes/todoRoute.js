@@ -16,6 +16,6 @@ router.route("/get/all").post(isAuthenticated, getAllTodos);
 
 router.route("/get/:id").get(isAuthenticated, getTodoById);
 
-router.route("/search/:keyword").get(isAuthenticated, search);
+router.route("/search/:keyword").post(isAuthenticated, search);
 
 export default router;
