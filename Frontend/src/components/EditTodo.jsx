@@ -8,7 +8,13 @@ import { useNavigate } from "react-router-dom";
 
 const EditTodo = () => {
   const todo = useSelector((store) => store.Todo.todo);
+  const user = useSelector((store) => store?.User?.loggedInUser);
+
   const navigate = useNavigate();
+
+  if (!user) {
+    navigate("/login");
+  }
 
   const [title, setTitle] = useState(todo?.title || "");
   const [description, setDescription] = useState(todo?.description || "");

@@ -4,12 +4,19 @@ import { TODO_API_ENDPOINT } from "../utils/constants";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddTodo = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  const navigate = useNavigate();
+
   const user = useSelector((store) => store?.User?.loggedInUser);
+
+  if (!user) {
+    navigate("/login");
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();

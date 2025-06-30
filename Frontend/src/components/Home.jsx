@@ -6,6 +6,11 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
+  const user = useSelector((store) => store?.User?.loggedInUser);
+
+  if (!user) {
+    navigate("/login");
+  }
 
   useGetAllTodos();
 
@@ -63,7 +68,7 @@ const Home = () => {
                   <button
                     type="button"
                     className="btn btn-sm btn-outline btn-primary hover:text-white hover:bg-primary transition"
-                    onClick={()=>navigate(`/todo/${item?._id}`)}
+                    onClick={() => navigate(`/todo/${item?._id}`)}
                   >
                     View Details
                   </button>
