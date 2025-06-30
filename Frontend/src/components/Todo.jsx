@@ -159,7 +159,7 @@ const Todo = () => {
               <button onClick={handleAI} className="btn btn-accent mt-4">
                 🤖 Get AI Suggestion
               </button>
-              <button className="btn btn-outline mt-4">Edit</button>
+              <button onClick={()=>navigate("/todo/edit")} className="btn btn-outline mt-4">Edit</button>
               <button
                 onClick={handleDelete}
                 className="btn btn-outline btn-error mt-4"

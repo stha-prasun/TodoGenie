@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import AddTodo from "./components/AddTodo";
 import Todo from "./components/Todo";
 import Search from "./components/Search";
+import EditTodo from "./components/EditTodo";
 
 const App = () => {
   const appRouter = createBrowserRouter([
@@ -32,6 +33,10 @@ const App = () => {
     {
       path: "/search",
       element: <Search />,
+    },
+    {
+      path: "/todo/edit",
+      element: <EditTodo />,
     },
   ]);
   return (

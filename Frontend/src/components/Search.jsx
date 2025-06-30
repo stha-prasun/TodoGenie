@@ -11,19 +11,19 @@ const Search = () => {
 
   const navigate = useNavigate();
 
-  const user = useSelector((store) => store.User.loggedInUser);
+  const user = useSelector((store) => store?.User?.loggedInUser);
 
   const searchTodos = async (text) => {
     try {
       const res = await axios.post(
         `${TODO_API_ENDPOINT}/search/${text}`,
         {
-          id: user._id,
+          id: user?._id,
         },
         { withCredentials: true }
       );
 
-      setResults(res.data.todos || []);
+      setResults(res?.data?.todos || []);
     } catch (error) {
       console.error("Search failed:", error);
     }
