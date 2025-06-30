@@ -83,6 +83,26 @@ const Todo = () => {
     }
   };
 
+  const handleChange = async (e) => {
+    try {
+      const selectedPriority = e.target.value;
+
+      const res = await axios.post(
+        `${TODO_API_ENDPOINT}/update`,
+        { id: todo?._id, priority: selectedPriority },
+        { withCredentials: true }
+      );
+
+      if (res?.data?.success) {
+        toast.success(res?.data?.message);
+        await fetchTodo();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -130,10 +150,14 @@ const Todo = () => {
               <label className="label">
                 <span className="label-text font-medium">Change Priority</span>
               </label>
-              <select className="select select-bordered">
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
+              <select
+                onChange={handleChange}
+                className="select select-bordered"
+                value={todo?.priority}
+              >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
               </select>
             </div>
 
@@ -159,7 +183,12 @@ const Todo = () => {
               <button onClick={handleAI} className="btn btn-accent mt-4">
                 🤖 Get AI Suggestion
               </button>
-              <button onClick={()=>navigate("/todo/edit")} className="btn btn-outline mt-4">Edit</button>
+              <button
+                onClick={() => navigate("/todo/edit")}
+                className="btn btn-outline mt-4"
+              >
+                Edit
+              </button>
               <button
                 onClick={handleDelete}
                 className="btn btn-outline btn-error mt-4"
