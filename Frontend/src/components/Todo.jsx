@@ -8,10 +8,16 @@ import { AI_API_ENDPOINT, TODO_API_ENDPOINT } from "../utils/constants";
 import toast from "react-hot-toast";
 
 const Todo = () => {
-  const { id } = useParams();
-  const fetchTodo = useGetTodo(id);
+  const user = useSelector((store) => store?.User?.loggedInUser);
 
   const navigate = useNavigate();
+
+  if (!user) {
+    navigate("/login");
+  }
+
+  const { id } = useParams();
+  const fetchTodo = useGetTodo(id);
 
   const todo = useSelector((store) => store.Todo.todo);
 

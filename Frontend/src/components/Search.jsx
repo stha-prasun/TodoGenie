@@ -13,6 +13,10 @@ const Search = () => {
 
   const user = useSelector((store) => store?.User?.loggedInUser);
 
+  if (!user) {
+    navigate("/login");
+  }
+
   const searchTodos = async (text) => {
     try {
       const res = await axios.post(
@@ -68,7 +72,7 @@ const Search = () => {
                 <div
                   key={todo._id}
                   className="p-4 rounded-xl shadow bg-white border cursor-pointer"
-                  onClick={()=>navigate(`/todo/${todo?._id}`)}
+                  onClick={() => navigate(`/todo/${todo?._id}`)}
                 >
                   <h2 className="text-xl font-semibold text-gray-800">
                     {todo.title}
